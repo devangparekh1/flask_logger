@@ -1,2 +1,3 @@
 .flaskenv
 loggerenv/*
+.idea/*
