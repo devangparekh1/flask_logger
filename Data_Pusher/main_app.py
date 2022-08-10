@@ -5,12 +5,20 @@ from middlewares.middlewares import token_required
 
 app = Flask(__name__)
 
+from services.service import PushService
+
+pushService = PushService()
+
 
 @app.route("/", methods=["POST"])
 @token_required
 @expects_json(MESSAGE_SCHEMA)
 def index(auth_user):
-    print(auth_user["user_id"])
-    data = request.get_json()
-    print(data["message"])
-    return {"id": auth_user["user_id"], "message": data["message"]}, 200
+    try:
+        request_data = request.get_json()
+        data = {"user_id": auth_user["user_id"], "message": request_data["message"]}
+        pushService.data_push(data)
+        return {"message": "success"}, 200
+
+    except Exception as e:
+        return {"message": "Something went wrong", "error": str(e)}, 500
