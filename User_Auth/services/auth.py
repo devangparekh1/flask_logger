@@ -3,11 +3,11 @@ from flask import jsonify
 from passlib.hash import pbkdf2_sha256
 import json
 import jwt
+import os
 
 
 class AuthService:
     def login(self, data):
-
         user = users.query.filter_by(email=data["email"]).first()
         if not user:
             return "User not found"
@@ -16,7 +16,9 @@ class AuthService:
             return "Invalid password"
 
         token = jwt.encode(
-            {"user_id": user.id, "email": data["email"]}, "secret", algorithm="HS256"
+            {"user_id": user.id, "email": data["email"]},
+            os.environ.get("SECRET_KEY"),
+            algorithm=os.environ.get("HS256"),
         )
         return token
 

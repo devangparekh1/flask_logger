@@ -10,7 +10,7 @@ def token_required(f):
 
         if "Authorization" in request.headers:
             token = request.headers["Authorization"].split(" ")[1]
-        print("Token", token)   
+
         if not token:
             return {
                 "message": "Authentication Token is missing!",
@@ -20,7 +20,7 @@ def token_required(f):
 
         try:
             data = jwt.decode(token, "secret", algorithms=["HS256"])
-            # current_user=models.User().get_by_id(data["user_id"])
+
             if data is None:
                 return {
                     "message": "Invalid Authentication token!",
