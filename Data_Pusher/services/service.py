@@ -14,9 +14,9 @@ class PushService:
             )
 
             payload = {
-                "user_id": data["user_id"],
+                "id": data["user_id"],
                 "message": data["message"],
-                "counter": int(r.get(data["user_id"])),
+                "request_count": int(r.get(data["user_id"])),
                 "random_number": random.randint(1, 100),
             }
             requests.post("http://127.0.0.1:3000/api/validate", json=payload)
@@ -24,4 +24,4 @@ class PushService:
             pass
 
         except Exception as e:
-            print(e)
+            return {"message": "Something went wrong", "error": str(e)}, 500

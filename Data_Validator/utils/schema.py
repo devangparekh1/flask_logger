@@ -1,10 +1,10 @@
 PAYLOAD_SCHEMA = {
     "type": "object",
     "properties": {
-        "user_id": {"type": "integer"},
+        "id": {"type": "integer"},
         "message": {"type": "string", "minLength": 1, "maxLength": 255},
-        "counter": {"type": "integer"},
+        "request_count": {"type": "integer"},
         "random_number": {"type": "integer"},
     },
-    "required": ["user_id", "message", "counter", "random_number"],
+    "required": ["id", "message", "request_count", "random_number"],
 }
