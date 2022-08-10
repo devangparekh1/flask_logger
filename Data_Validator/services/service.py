@@ -16,7 +16,6 @@ import time
 
 class ValidateService:
     def push_to_es(self, data):
-        today = date.today()
         try:
 
             if data["random_number"] % 10 == 0 and data["count"] == 0:
@@ -42,6 +41,7 @@ class ValidateService:
 
 
 def send_data(data_to_send):
+    today = date.today()
     try:
         del data_to_send["count"]
         del data_to_send["random_number"]
@@ -50,4 +50,5 @@ def send_data(data_to_send):
         requests.post("http://127.0.0.1:4000/api/messages", json=new_data_to_send)
         return True
     except Exception as e:
+        print(e)
         return False
