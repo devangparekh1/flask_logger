@@ -17,8 +17,9 @@ def index(auth_user):
     try:
         request_data = request.get_json()
         data = {"user_id": auth_user["user_id"], "message": request_data["message"]}
-        pushService.data_push(data)
-        return {"message": "success"}, 200
+        response = pushService.data_push(data)
+        message = "success" if response else "fail"
+        return {"message": message}, 200
 
     except Exception as e:
         return {"message": "Something went wrong", "error": str(e)}, 500

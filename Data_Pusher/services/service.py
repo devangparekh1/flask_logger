@@ -19,9 +19,10 @@ class PushService:
                 "request_count": int(r.get(data["user_id"])),
                 "random_number": random.randint(1, 100),
             }
-            requests.post("http://127.0.0.1:3000/api/validate", json=payload)
+            r = requests.post("http://127.0.0.1:3000/api/validate", json=payload)
 
-            pass
+            return True if r.status_code in [200, 201] else False
 
         except Exception as e:
-            return {"message": "Something went wrong", "error": str(e)}, 500
+            print(e)
+            return False
