@@ -19,7 +19,11 @@ def token_required(f):
             }, 401
 
         try:
-            data = jwt.decode(token, "secret", algorithms=["HS256"])
+            data = jwt.decode(
+                token,
+                os.environ.get("SECRET_KEY"),
+                algorithms=[os.environ.get("HASH_ALGORITHM")],
+            )
 
             if data is None:
                 return {

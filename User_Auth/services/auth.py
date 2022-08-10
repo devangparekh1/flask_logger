@@ -18,7 +18,7 @@ class AuthService:
         token = jwt.encode(
             {"user_id": user.id, "email": data["email"]},
             os.environ.get("SECRET_KEY"),
-            algorithm=os.environ.get("HS256"),
+            algorithm=os.environ.get("HASH_ALGORITHM"),
         )
         return token
 
