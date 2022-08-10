@@ -13,9 +13,14 @@ validateService = ValidateService()
 @expects_json(PAYLOAD_SCHEMA)
 def index():
     try:
+
         request_data = request.get_json()
         request_data["count"] = 0
-        validateService.push_to_es(request_data)
-        return {"status": "success"}
+
+        response = validateService.push_to_es(request_data)
+        message = "Message Pushed Successfully" if response else "Message Not Pushed"
+
+        return {"status": response, "message": message}
+
     except Exception as e:
         return {"message": "Something went wrong", "error": str(e)}, 500

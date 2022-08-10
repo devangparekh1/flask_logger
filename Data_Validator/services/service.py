@@ -38,7 +38,7 @@ class ValidateService:
             return send_data(data)
         except Exception as e:
             print(e)
-            return {"message": "Something went wrong", "error": str(e)}, 500
+            return False
 
 
 def send_data(data_to_send):
