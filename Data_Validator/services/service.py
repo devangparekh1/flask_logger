@@ -20,11 +20,13 @@ class ValidateService:
         try:
 
             if data["random_number"] % 10 == 0 and data["count"] == 0:
-                # Halt execution for 4 seconds.
-                time.sleep(4)
+
                 data["category"] = "Retried"
                 data["random_number"] = random.randint(1, 100)
                 data["count"] = 1
+
+                send_data(data)
+                time.sleep(4)  # Halt the execution for the 4 seconds
                 self.push_to_es(data)
 
             elif data["random_number"] % 10 == 0 and data["count"] == 1:
@@ -33,12 +35,19 @@ class ValidateService:
             else:
                 data["category"] = "Direct"
 
-            del data["count"]
-            del data["random_number"]
-            data["created_at"] = today.strftime("%Y-%m-%d")
-            new_data = {"message": data}
-            requests.post("http://127.0.0.1:4000/api/messages", json=new_data)
-
+            return send_data(data)
         except Exception as e:
             print(e)
             return {"message": "Something went wrong", "error": str(e)}, 500
+
+
+def send_data(data_to_send):
+    try:
+        del data_to_send["count"]
+        del data_to_send["random_number"]
+        data_to_send["created_at"] = today.strftime("%Y-%m-%d")
+        new_data_to_send = {"message": data}
+        requests.post("http://127.0.0.1:4000/api/messages", json=new_data_to_send)
+        return True
+    except Exception as e:
+        return False
