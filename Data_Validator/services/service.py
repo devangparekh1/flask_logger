@@ -46,7 +46,7 @@ def send_data(data_to_send):
         del data_to_send["count"]
         del data_to_send["random_number"]
         data_to_send["created_at"] = today.strftime("%Y-%m-%d")
-        new_data_to_send = {"message": data}
+        new_data_to_send = {"message": data_to_send}
         requests.post("http://127.0.0.1:4000/api/messages", json=new_data_to_send)
         return True
     except Exception as e:
