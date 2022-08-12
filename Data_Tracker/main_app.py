@@ -17,10 +17,8 @@ def tasks():
 
 @app.route("/api/messages", methods=["POST"])
 def create_task():
-    print("Received data")
     request_data = request.get_json()
     task = request_data["message"]
-    print("Message added to ES", task)
     return appService.add_message(task)
 
 
